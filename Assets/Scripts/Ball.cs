@@ -8,10 +8,11 @@ public class Ball : MonoBehaviour
     [SerializeField] float velX = 2f, velY = 10f; 
     Vector2 paddletoBallVector;
     bool hasStarted = false;
+    AudioSource clickAudio;
     void Start()
     {
         paddletoBallVector = transform.position - paddle1.transform.position;
-        
+        clickAudio = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -37,6 +38,14 @@ public class Ball : MonoBehaviour
         {
             hasStarted = true;
             GetComponent<Rigidbody2D>().velocity = new Vector2(velX, velY);
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D other) 
+    {
+        if(hasStarted == true)
+        {
+            clickAudio.Play();
         }
     }
 }
