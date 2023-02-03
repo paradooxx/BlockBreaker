@@ -9,6 +9,7 @@ public class Ball : MonoBehaviour
     Vector2 paddletoBallVector;
     bool hasStarted = false;
     AudioSource clickAudio;
+    [SerializeField] AudioClip[] ballSounds;
     void Start()
     {
         paddletoBallVector = transform.position - paddle1.transform.position;
@@ -17,9 +18,7 @@ public class Ball : MonoBehaviour
 
     void Update()
     {
-       //LockBalltoPaddle();
-       //LaunchBallonClick();
-       if(hasStarted == false)
+       if(!hasStarted)
         {
             LockBalltoPaddle();
             LaunchBallonClick();
@@ -43,9 +42,10 @@ public class Ball : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other) 
     {
-        if(hasStarted == true)
+        AudioClip clip = ballSounds[UnityEngine.Random.Range(0, ballSounds.Length)];
+        if(hasStarted)
         {
-            clickAudio.Play();
+            clickAudio.PlayOneShot(clip);
         }
     }
 }
