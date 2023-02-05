@@ -10,6 +10,20 @@ public class GameStatus : MonoBehaviour
     [SerializeField] TextMeshProUGUI points;
 
     // Start is called before the first frame update
+    private void Awake()
+    {
+        int gameStatusCount = FindObjectsOfType<GameStatus>().Length;
+        if(gameStatusCount > 1)
+        {
+           gameObject.SetActive(false);
+           Destroy(gameObject);
+        }
+        else
+        {
+            DontDestroyOnLoad(gameObject);
+        }
+    }
+
     void Start()
     {
         points.text = currentScore.ToString();
