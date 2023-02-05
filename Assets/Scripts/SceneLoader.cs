@@ -14,5 +14,15 @@ public class SceneLoader : MonoBehaviour
    public void LoadStartingScene()
    {
         SceneManager.LoadScene(0);
+        FindObjectOfType<GameSession>().DestroyGameObject();
+   }
+
+   public void QuitGame()
+   {
+     #if UNITY_EDITOR
+         UnityEditor.EditorApplication.isPlaying = false;
+     #else
+         Application.Quit();
+     #endif
    }
 }

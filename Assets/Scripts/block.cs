@@ -21,7 +21,7 @@ public class block : MonoBehaviour
 
     public void DestroyBlock()
     {
-        FindObjectOfType<GameStatus>().updatePoint();
+        FindObjectOfType<GameSession>().updatePoint();
         AudioSource.PlayClipAtPoint(breakSound, new Vector3(8, 6, -10));
         Destroy(gameObject);
         lv.BlockDestroyed();
