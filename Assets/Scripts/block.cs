@@ -5,25 +5,63 @@ using UnityEngine;
 public class block : MonoBehaviour
 {
     [SerializeField] AudioClip breakSound;
-    level lv;
+    [SerializeField] GameObject blockSparkVFX;
+    [SerializeField] Sprite[] hitSprites;
+    level lv;                                          //cached reference
+
+    [SerializeField] int timesHit, maxHits = 3;                      //serializing timesHit for debugging only 
+
     //GameStatus game;
     private void Start() 
     {
-        lv = FindObjectOfType<level>();
-        //game = FindObjectOfType<GameStatus>();
-        lv.CountBreakableBlocks();
+        CountBreakableBlocks();
     }
 
     private void OnCollisionEnter2D(Collision2D other) 
     {
-        DestroyBlock();
+        if(tag == "Breakable")
+            HandleHit();
+    }
+
+    private void HandleHit()
+    {
+        timesHit++;
+        if(timesHit == maxHits)
+            DestroyBlock();
+        else
+            ShowNextHitSprite();
+    }
+
+    private void ShowNextHitSprite()
+    {
+        GetComponent<SpriteRenderer>().sprite = hitSprites[timesHit - 1];
     }
 
     public void DestroyBlock()
     {
-        FindObjectOfType<GameSession>().updatePoint();
-        AudioSource.PlayClipAtPoint(breakSound, new Vector3(8, 6, -10));
+        BreakSound();
         Destroy(gameObject);
         lv.BlockDestroyed();
+        triggerParticleVFX();
+    }
+
+    public void BreakSound()
+    {
+        FindObjectOfType<GameSession>().updatePoint();
+        AudioSource.PlayClipAtPoint(breakSound, new Vector3(8, 6, -10));
+    }
+
+    private void CountBreakableBlocks()
+    {
+        lv = FindObjectOfType<level>();
+        if(tag == "Breakable")
+        {
+            lv.CountBlocks();
+        }
+    }
+
+    private void triggerParticleVFX()
+    {
+        GameObject sparkle = Instantiate(blockSparkVFX, transform.position, transform.rotation);
     }
 }
