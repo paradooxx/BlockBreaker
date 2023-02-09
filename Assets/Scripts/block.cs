@@ -9,7 +9,7 @@ public class block : MonoBehaviour
     [SerializeField] Sprite[] hitSprites;
     level lv;                                          //cached reference
 
-    [SerializeField] int timesHit, maxHits = 3;                      //serializing timesHit for debugging only 
+    [SerializeField] int timesHit;                      //serializing timesHit for debugging only 
 
     //GameStatus game;
     private void Start() 
@@ -26,6 +26,7 @@ public class block : MonoBehaviour
     private void HandleHit()
     {
         timesHit++;
+        int maxHits = hitSprites.Length + 1;
         if(timesHit == maxHits)
             DestroyBlock();
         else
@@ -34,7 +35,14 @@ public class block : MonoBehaviour
 
     private void ShowNextHitSprite()
     {
-        GetComponent<SpriteRenderer>().sprite = hitSprites[timesHit - 1];
+        if(hitSprites[timesHit - 1] != null)
+        {
+            GetComponent<SpriteRenderer>().sprite = hitSprites[timesHit - 1];
+        }
+        else
+        {
+            Debug.LogError(gameObject.name + " block Sprite is missing from array!");
+        }
     }
 
     public void DestroyBlock()
