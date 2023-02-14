@@ -1545,7 +1545,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 472622575192014425, guid: 7e6c9aca72459424abaad444fcc18f62, type: 3}
       propertyPath: isAutoPlayEnable
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7e6c9aca72459424abaad444fcc18f62, type: 3}
